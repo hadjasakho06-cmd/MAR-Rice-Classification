@@ -48,6 +48,7 @@ def load_my_model():
             st.error(f"Erreur lors du téléchargement du modèle : {e}")
             return None
     
+    # Chargement de l'architecture VGG16 personnalisée
     return tf.keras.models.load_model(MODEL_PATH)
 
 # Chargement du modèle
@@ -66,30 +67,31 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption='Image à analyser', use_container_width=True)
     
-    # Prétraitement de l'image pour l'architecture VGG16
+    # --- PRÉTRAITEMENT SYNC AVEC TON ENTRAÎNEMENT ---
     img = image.resize((224, 224))
-    img_array = np.array(img) / 255.0
+    img_array = np.array(img)
+    
+    # Normalisation : Assure-toi que c'est bien ce qui a été fait dans ton notebook (rescale=1./255)
+    img_array = img_array / 255.0 
+    
     img_array = np.expand_dims(img_array, axis=0)
 
     # Bouton de prédiction
-    if st.button('Lancer l\'analyse'):
+    if st.button("Lancer l'analyse"):
         if model is not None:
-            with st.spinner('Analyse en cours...'):
+            with st.spinner('Analyse en cours par VGG16...'):
                 prediction = model.predict(img_array)
                 
-                # --- PARTIE MODIFIÉE POUR LES NOMS DE VARIABLES SUR LE GRAPHIQUE ---
-                
-                # Liste des variétés dans l'ordre exact de ton dataset
+                # Liste des variétés (Vérifie l'ordre alphabétique de tes dossiers d'entraînement)
                 classes = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
                 
-                # Création d'un dictionnaire pour mapper les noms aux probabilités
-                # prediction[0] contient les scores. On les associe aux noms des classes.
+                # Préparation des données pour le graphique (Correction image_87e73c.png)
                 df_results = pd.DataFrame({
                     'Variété': classes,
                     'Probabilité': prediction[0]
                 }).set_index('Variété')
                 
-                # Récupération de l'indice le plus élevé pour le message de succès
+                # Identification de la meilleure prédiction
                 indice_max = np.argmax(prediction)
                 nom_variete = classes[indice_max]
                 score_confiance = prediction[0][indice_max] * 100
@@ -97,17 +99,16 @@ if uploaded_file is not None:
                 st.write("---")
                 st.header("Résultat de l'analyse")
                 
-                # Affichage du résultat textuel
+                # Résultat principal
                 st.success(f"✅ Variété détectée : **{nom_variete}**")
                 st.info(f"📊 Indice de confiance : **{score_confiance:.2f}%**")
                 
-                # Affichage du graphique avec les noms de variétés au lieu des chiffres
+                # Graphique avec les noms de variétés
                 st.write("Détails des probabilités par variété :")
                 st.bar_chart(df_results)
                 
-                # -------------------------------------------------------
         else:
-            st.error("Le modèle n'a pas pu être chargé. Vérifiez l'URL sur Hugging Face.")
+            st.error("Le modèle n'est pas disponible. Vérifiez le terminal.")
 
 # Pied de page
 st.write("---")
