@@ -27,18 +27,17 @@ st.markdown("""
         color: white;
         border-radius: 10px;
         width: 100%;
+        font-weight: bold;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # 3. Gestion du modèle lourd (VGG16)
-# Utilisation du lien permanent pour Racky Sakho Sow / Projet ServAgri
 MODEL_URL = "https://huggingface.co/Hadjita/vgg16-rice-model/resolve/main/Modele_riz_final.keras"
 MODEL_PATH = "Modele_riz_final.keras"
 
 @st.cache_resource
 def load_my_model():
-    # Si le modèle n'est pas présent localement sur le serveur, on le télécharge
     if not os.path.exists(MODEL_PATH):
         try:
             with st.spinner("Initialisation du système... Téléchargement du modèle VGG16 (ServAgri) en cours..."):
@@ -77,10 +76,28 @@ if uploaded_file is not None:
             with st.spinner('Analyse en cours...'):
                 prediction = model.predict(img_array)
                 
+                # --- PARTIE MODIFIÉE POUR L'AFFICHAGE PROFESSIONNEL ---
+                
+                # Remplace ces noms par tes 5 variétés réelles dans le bon ordre
+                classes = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
+                
+                # Récupération de l'indice le plus élevé
+                indice_max = np.argmax(prediction)
+                nom_variete = classes[indice_max]
+                score_confiance = prediction[0][indice_max] * 100
+
                 st.write("---")
                 st.header("Résultat de l'analyse")
-                st.success(f"Probabilités détectées : {prediction}")
-                st.info("Interface de prédiction optimisée pour le projet MAC.")
+                
+                # Affichage du résultat principal
+                st.success(f"✅ Variété détectée : **{nom_variete}**")
+                st.info(f"📊 Indice de confiance : **{score_confiance:.2f}%**")
+                
+                # Petit graphique pour voir la distribution des probabilités
+                st.write("Détails des probabilités par classe :")
+                st.bar_chart(prediction[0])
+                
+                # -------------------------------------------------------
         else:
             st.error("Le modèle n'a pas pu être chargé. Vérifiez l'URL sur Hugging Face.")
 
