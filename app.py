@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 import os
 import urllib.request
+import pandas as pd
 
 # 1. Configuration de la page
 st.set_page_config(
@@ -76,12 +77,19 @@ if uploaded_file is not None:
             with st.spinner('Analyse en cours...'):
                 prediction = model.predict(img_array)
                 
-                # --- PARTIE MODIFIÉE POUR L'AFFICHAGE PROFESSIONNEL ---
+                # --- PARTIE MODIFIÉE POUR LES NOMS DE VARIABLES SUR LE GRAPHIQUE ---
                 
-                # Remplace ces noms par tes 5 variétés réelles dans le bon ordre
+                # Liste des variétés dans l'ordre exact de ton dataset
                 classes = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
                 
-                # Récupération de l'indice le plus élevé
+                # Création d'un dictionnaire pour mapper les noms aux probabilités
+                # prediction[0] contient les scores. On les associe aux noms des classes.
+                df_results = pd.DataFrame({
+                    'Variété': classes,
+                    'Probabilité': prediction[0]
+                }).set_index('Variété')
+                
+                # Récupération de l'indice le plus élevé pour le message de succès
                 indice_max = np.argmax(prediction)
                 nom_variete = classes[indice_max]
                 score_confiance = prediction[0][indice_max] * 100
@@ -89,13 +97,13 @@ if uploaded_file is not None:
                 st.write("---")
                 st.header("Résultat de l'analyse")
                 
-                # Affichage du résultat principal
+                # Affichage du résultat textuel
                 st.success(f"✅ Variété détectée : **{nom_variete}**")
                 st.info(f"📊 Indice de confiance : **{score_confiance:.2f}%**")
                 
-                # Petit graphique pour voir la distribution des probabilités
-                st.write("Détails des probabilités par classe :")
-                st.bar_chart(prediction[0])
+                # Affichage du graphique avec les noms de variétés au lieu des chiffres
+                st.write("Détails des probabilités par variété :")
+                st.bar_chart(df_results)
                 
                 # -------------------------------------------------------
         else:
