@@ -44,9 +44,14 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file).convert('RGB')
     st.image(image, caption="Échantillon à analyser", use_container_width=True)
     
-    # --- PRÉTRAITEMENT ---
+    # --- PRÉTRAITEMENT TECHNIQUE ---
     img = image.resize((224, 224))
     img_array = np.array(img)
+    
+    # Correction cruciale : Conversion RGB vers BGR (Format natif de ResNet50)
+    # Cela évite que l'IA ne confonde les variétés à cause des couleurs inversées
+    img_array = img_array[:, :, ::-1] 
+    
     img_array = np.expand_dims(img_array, axis=0)
     img_array = img_array / 255.0 
 
@@ -55,9 +60,8 @@ if uploaded_file is not None:
         with st.spinner("Analyse en cours..."):
             predictions = model.predict(img_array)
             
-            # --- CORRECTION DE L'ORDRE DES CLASSES ---
-            # Si l'indice 1 est Arborio chez toi, voici l'ordre probable :
-            classes = ['Basmati', 'Arborio', 'Ipsala', 'Jasmine', 'Karacadag']
+            # Ton ordre exact confirmé
+            classes = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
             
             probabilites = predictions[0]
             idx_max = np.argmax(probabilites)
