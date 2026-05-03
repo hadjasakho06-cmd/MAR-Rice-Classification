@@ -15,7 +15,6 @@ st.set_page_config(
 )
 
 # --- PARAMÈTRES DU MODÈLE ---
-# Utilisation de l'URL permanente Hugging Face pour contourner la limite de taille de GitHub
 MODEL_URL = "https://huggingface.co/Hadjita/classification-resnet-final/resolve/main/ResNet50_Final_Classification_riz.keras"
 MODEL_PATH = "ResNet50_Final_Classification_riz.keras"
 
@@ -46,27 +45,29 @@ st.divider()
 uploaded_file = st.file_uploader("Veuillez charger une photo d'un grain de riz (JPG ou JPEG)", type=["jpg", "jpeg"])
 
 if uploaded_file is not None:
-    # Affichage de l'image source
     image = Image.open(uploaded_file).convert('RGB')
     st.image(image, caption="Échantillon prêt pour analyse", use_container_width=True)
     
     # --- PRÉTRAITEMENT TECHNIQUE ---
-    # Redimensionnement aux dimensions d'entrée de ResNet50 (224x224)
     img = image.resize((224, 224))
     img_array = np.array(img)
     img_array = np.expand_dims(img_array, axis=0)
     
-    # Application du prétraitement spécifique au modèle ResNet50
+    # Prétraitement spécifique ResNet50
     img_array = preprocess_input(img_array) 
 
     # --- PRÉDICTION ---
     if st.button("Lancer le diagnostic 🚀"):
         with st.spinner("Analyse des caractéristiques morphologiques..."):
+            # Prédiction brute du modèle
             predictions = model.predict(img_array)
+            
+            # Définition des classes (Ordre alphabétique standard Keras)
             classes = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
             
-            # Application de Softmax pour obtenir des probabilités claires
-            probabilites = tf.nn.softmax(predictions[0]).numpy()
+            # --- MODIFICATION MAJEURE ICI ---
+            # On récupère directement les probabilités sans ré-appliquer un Softmax manuel
+            probabilites = predictions[0]
             idx_max = np.argmax(probabilites)
             
             # Préparation des données pour le graphique
@@ -80,11 +81,9 @@ if uploaded_file is not None:
             st.success(f"✅ Variété identifiée : **{classes[idx_max]}**")
             st.info(f"📊 Indice de fiabilité : **{probabilites[idx_max]*100:.2f}%**")
             
-            # Graphique de répartition
             st.markdown("### Détails des probabilités")
             st.bar_chart(df_results)
 
-            # Note de bas de page technique
             st.caption("Modèle basé sur l'architecture ResNet50 | Précision globale : 96.88%")
 
 st.divider()
