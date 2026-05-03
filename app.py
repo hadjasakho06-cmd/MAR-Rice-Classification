@@ -10,9 +10,8 @@ import urllib.request
 # --- CONFIGURATION ---
 st.set_page_config(page_title="ServAgri - Diagnostic", page_icon="🌾")
 
-MODEL_URL = "https://huggingface.co/Hadjita/classification-resnet-final/resolve/main/ResNet50_Final_Classification_riz.keras"
-MODEL_PATH = "ResNet50_Final_Classification_riz.keras"
-
+MODEL_URL = "https://huggingface.co/Hadjita/classification-resnet-final/resolve/main/ResNet50_BON.keras"
+MODEL_PATH = "ResNet50_BON.keras"
 @st.cache_resource
 def load_my_model():
     if not os.path.exists(MODEL_PATH):
