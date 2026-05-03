@@ -16,7 +16,7 @@ st.set_page_config(
 
 # --- PARAMÈTRES DU MODÈLE ---
 # Utilisation de l'URL permanente Hugging Face pour contourner la limite de taille de GitHub
-MODEL_URL = "https://huggingface.co/Hadjita/Modèle_RESNET50/resolve/main/ResNet50_Final_Classification_riz.keras"
+MODEL_URL = "https://huggingface.co/Hadjita/classification-resnet-final/resolve/main/ResNet50_Final_Classification_riz.keras"
 MODEL_PATH = "ResNet50_Final_Classification_riz.keras"
 
 @st.cache_resource
