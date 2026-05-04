@@ -188,11 +188,9 @@ with st.sidebar:
     st.markdown('<hr class="sidebar-divider">', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-section">Performances</div>', unsafe_allow_html=True)
     st.markdown("""
-    <div class="stat-row"><span>Modèle</span><span class="stat-val">ResNet50</span></div>
-    <div class="stat-row"><span>Accuracy</span><span class="stat-val">98.82%</span></div>
+    <div class="stat-row"><span>Modèle</span><span class="stat-val">IA</span></div>
+    <div class="stat-row"><span>Précision</span><span class="stat-val">98.82%</span></div>
     <div class="stat-row"><span>Classes</span><span class="stat-val">5 variétés</span></div>
-    <div class="stat-row"><span>Train</span><span class="stat-val">500 images</span></div>
-    <div class="stat-row"><span>Test</span><span class="stat-val">169 images</span></div>
     """, unsafe_allow_html=True)
 
     st.markdown('<hr class="sidebar-divider">', unsafe_allow_html=True)
