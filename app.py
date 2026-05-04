@@ -223,9 +223,9 @@ model = load_my_model()
 # --- INTERFACE ---
 st.markdown("""
 <div class="hero">
-    <div class="hero-badge">ServAgri · IA agricole</div>
-    <h1 class="hero-title">Mon Assistant Rizicole<br>Cultural</h1>
-    <p class="hero-subtitle">Classification de variétés de riz par intelligence artificielle · ResNet50 · 98.8% d'accuracy</p>
+    <div class="hero-badge">RIZIERE · IA agricole</div>
+    <h1 class="hero-title">Mon Assistant<br>Rizicole</h1>
+    <p class="hero-subtitle">Classification de variétés de riz par intelligence artificielle · 98.8% de précision</p>
 </div>
 """, unsafe_allow_html=True)
 
