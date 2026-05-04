@@ -8,7 +8,7 @@ import urllib.request
 
 # --- CONFIGURATION ---
 st.set_page_config(
-    page_title="ServAgri – MAC",
+    page_title="RIZIERE – MAR",
     page_icon="🌾",
     layout="wide"
 )
@@ -107,11 +107,11 @@ html, body, .stApp {
 
 # --- DONNÉES ---
 VARIETY_INFO = {
-    'Arborio':   {'emoji': '🇮🇹', 'desc': 'Riz italien à grains courts, riche en amidon. Idéal pour les risottos grâce à sa texture crémeuse.'},
-    'Basmati':   {'emoji': '🇮🇳', 'desc': 'Riz indien à grains longs et fins, au parfum floral. Incontournable dans la cuisine d\'Asie du Sud.'},
-    'Ipsala':    {'emoji': '🇹🇷', 'desc': 'Riz turc à grains moyens et aplatis, cultivé dans la région d\'Ipsala. Très polyvalent en cuisine.'},
-    'Jasmine':   {'emoji': '🇹🇭', 'desc': 'Riz thaïlandais légèrement parfumé, à grains longs. Texture moelleuse, emblématique de l\'Asie du Sud-Est.'},
-    'Karacadag': {'emoji': '🇹🇷', 'desc': 'Riz turc IGP cultivé sur le plateau de Karacadag. Grains courts et saveur très distinctive.'},
+    'Arborio':   {'emoji': '🫧', 'desc': 'Riz italien à grains courts, riche en amidon. Idéal pour les risottos grâce à sa texture crémeuse.'},
+    'Basmati':   {'emoji': '🌬️', 'desc': 'Riz indien à grains longs et fins, au parfum floral. Incontournable dans la cuisine d\'Asie du Sud.'},
+    'Ipsala':    {'emoji': '🪨', 'desc': 'Riz turc à grains moyens et aplatis, cultivé dans la région d\'Ipsala. Très polyvalent en cuisine.'},
+    'Jasmine':   {'emoji': '🕊️', 'desc': 'Riz thaïlandais légèrement parfumé, à grains longs. Texture moelleuse, emblématique de l\'Asie du Sud-Est.'},
+    'Karacadag': {'emoji': '🌋', 'desc': 'Riz turc IGP cultivé sur le plateau de Karacadag. Grains courts et saveur très distinctive.'},
 }
 CLASSES = ['Arborio', 'Basmati', 'Ipsala', 'Jasmine', 'Karacadag']
 
@@ -177,8 +177,8 @@ model = load_my_model()
 # ===== SIDEBAR =====
 with st.sidebar:
     st.markdown('<div class="sidebar-logo">🌾</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sidebar-brand">ServAgri</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sidebar-tagline">Mon Assistant Cultural</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-brand">RIZIERE</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-tagline">Mon Assistant Rizicole</div>', unsafe_allow_html=True)
     st.markdown('<hr class="sidebar-divider">', unsafe_allow_html=True)
 
     st.markdown('<div class="sidebar-section">Variétés reconnues</div>', unsafe_allow_html=True)
@@ -210,12 +210,12 @@ with st.sidebar:
 # ===== MAIN =====
 st.markdown("""
 <div class="hero">
-    <div class="hero-eyebrow">ServAgri · Intelligence Artificielle Agricole</div>
-    <h1 class="hero-title">Mon Assistant<br>Cultural (MAC)</h1>
+    <div class="hero-eyebrow">RIZIERE · Intelligence Artificielle Agricole</div>
+    <h1 class="hero-title">Mon Assistant<br>Rizicole (MAR)</h1>
     <p class="hero-sub">Identifiez instantanément la variété de votre grain de riz par intelligence artificielle.</p>
     <div class="hero-chips">
-        <span class="chip">ResNet50</span>
-        <span class="chip">98.82% accuracy</span>
+        <span class="chip">Modèle IA</span>
+        <span class="chip">98.82% de Précision</span>
         <span class="chip">5 variétés</span>
         <span class="chip">Deep Learning</span>
     </div>
@@ -299,6 +299,6 @@ with col_right:
 
 st.markdown("""
 <div class="footer">
-    ServAgri · Mon Assistant Cultural · ResNet50 · Projet Deep Learning 2025
+    RIZIERE · Mon Assistant Rizicole · IA · Projet Deep Learning 2025
 </div>
 """, unsafe_allow_html=True)
