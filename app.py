@@ -224,7 +224,7 @@ col_left, col_right = st.columns([1, 1.2], gap="large")
 
 with col_left:
     st.markdown('<div class="upload-label">📁 Charger une image</div>', unsafe_allow_html=True)
-    uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "webp"])
 
     if uploaded_file:
         image = Image.open(uploaded_file).convert('RGB')
